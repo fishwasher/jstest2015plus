@@ -1,3 +1,5 @@
 node_modules
 .openode
 package-lock.json
+Dockerfile
+__*
