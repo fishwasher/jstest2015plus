@@ -1,25 +1,8 @@
 !function(win, doc){
 
-    var runTest = function(p) {
-        var t = typeof(p);
-        if ('function' === t) {
-            try {
-                return !!p();
-            } catch(x) {}
-            return false;
-        }
-        if ('string' === t) {
-            var test = false;
-            try {
-                eval(s);
-            } catch (x) {}
-            return test;
-        }
-    };
-
     var features = {
 
-        'New Syntax': [
+        'Syntax': [
 
             {
                 title: '<code>let</code> and <code>const</code> declarations',
@@ -226,7 +209,7 @@
                 ver: 'es6'
             }
         ],
-        
+
         'Regular Expressions': [
 
             {
@@ -261,4 +244,194 @@
             }
         ]
     };
+
+    var runTest = function(p) {
+        var t = typeof(p);
+        if ('function' === t) {
+            try {
+                return !!p();
+            } catch(x) {}
+            return false;
+        }
+        if ('string' === t) {
+            var test = false;
+            try {
+                eval(s);
+            } catch (x) {}
+            return test;
+        }
+    };
+
+    var versionMap = {
+        es6: 'ECMAScript 6',
+        js17: 'JavaScript 2017'
+    };
+
+    var withText = function(el, txt) {
+        if (txt) {
+            var tn = document.createTextNode(txt);
+            el.appendChild(tn);
+        }
+        return el;
+    };
+
+    var makeEl = function(tagname, classname, txt) {
+        var el = document.createElement(tagname);
+        if (classname) {
+            el.className = classname;
+        }
+        return withText(el);
+    };
+
+    var makeTextLink = function(href, txt, classname, targetBlank) {
+        var a = makeEl('a', classname, txt);
+        a.setAttribute('href', href);
+        if (targetBlank || targetBlank === undefined) {
+            a.setAttribute('target', '_blank');
+            a.setAttribute('noopener', '');
+            a.setAttribute('noreferrer', '');
+        }
+        return a;
+    };
+    /*
+    var toolTip = function(content) {
+        var id = 'tooltip-0857268587692987', tip = document.getElementById(id);
+        if (!tip) {
+            tip = document.createElement('div');
+            div.setAttribute('id', id);
+            div.className = 'tooltip';
+            document.body.appendChild(tip);
+        }
+        tip.innerHTML = content || '';
+        return tip;
+    };
+    */
+
+
+var oTooltip = new (function() {
+    var
+        nOverX,
+        nOverY,
+        nLeftPos,
+        nTopPos,
+        oNode,
+        bOff = true;
+
+    this.follow = function (oMsEvnt1) {
+        if (bOff) {
+            return;
+        }
+        var nMoveX =  oMsEvnt1.clientX, nMoveY =  oMsEvnt1.clientY;
+        nLeftPos += nMoveX - nOverX; nTopPos += nMoveY - nOverY;
+        oNode.style.left = nLeftPos + "px";
+        oNode.style.top = nTopPos + "px";
+        nOverX = nMoveX; nOverY = nMoveY;
+    };
+
+    this.remove = function () {
+        if (bOff) { return; }
+        bOff = true; document.body.removeChild(oNode);
+    };
+
+    this.append = function (oMsEvnt2, sTxtContent) {
+        oNode.innerHTML = sTxtContent;
+        if (bOff) {
+            document.body.appendChild(oNode);
+            bOff = false;
+        }
+        var
+            nScrollX = document.documentElement.scrollLeft || document.body.scrollLeft,
+            nScrollY = document.documentElement.scrollTop || document.body.scrollTop,
+            nWidth = oNode.offsetWidth,
+            nHeight = oNode.offsetHeight;
+        nOverX = oMsEvnt2.clientX; nOverY = oMsEvnt2.clientY;
+        nLeftPos = document.body.offsetWidth - nOverX - nScrollX > nWidth ? nOverX + nScrollX + 10 : document.body.offsetWidth - nWidth + 16;
+        nTopPos = nOverY - nHeight > 6 ? nOverY + nScrollY - nHeight - 7 : nOverY + nScrollY + 20;
+        oNode.style.left = nLeftPos + "px";
+        oNode.style.top = nTopPos + "px";
+    };
+  this.init = function() {
+    oNode = document.createElement("div");
+    oNode.className = "tooltip";
+    oNode.style.position = "absolute";
+  };
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // render tests
+    (function(targId) {
+        var targEl = document.getElementById(targId);
+        for (var sectTitle in features) {
+            var
+                sectEl = makeEl('div'),
+                sectEl.className = 'section';
+                titleEl = makeEl('h2'),
+                featsEl = makeEl('ul'),
+                featList = features[sectTitle];
+            titleEl.innerHTML = sectTitle;
+            sectEl.appendChild(titleEl);
+            for (var i = 0, n = featList.length; i < n; i++) {
+                var
+                    feat = featList[i],
+                    testVal,
+                    descrEl,
+                    testEl,
+                    mdnEl,
+                    ecmaEl,
+                    verEl,
+                    itemEl,
+                    subEl,
+                    tipEl;
+                if (!feat.title || !feat.test) {
+                    continue;
+                }
+                testVal = runTest(feat.test);
+                itemEl = makeEl('li', 'feature ' + (testVal ? 'pass' : 'fail'));
+                testEl = makeEl('span', 'checkmark');
+                descrEl = makeEl('span', 'descr');
+                descrEl.innerHTML = feat.title;
+                itemEl.appendChild(testEl);
+                itemEl.appendChild(descrEl);
+                subEl = makeEl('div', 'subline');
+                if (feat.ver && versionMap[feat.ver]) {
+                    verEl = makeEl('span', 'version', versionMap[feat.ver]);
+                    subEl.appendChild(verEl);
+                }
+                if (feat.ecma) {
+                    ecmaEl = makeTextLink(feat.ecma, 'ECMA', 'ecma');
+                    subEl.appendChild(ecmaEl);
+                }
+                if (feat.mdn) {
+                    mdnEl = makeTextLink(feat.mdn, 'MDN', 'mdn');
+                    subEl.appendChild(mdnEl);
+                }
+                itemEl.appendChild(subEl);
+                if (feat.tip) {
+                    itemEl.addEventListener('mouseenter', function(ev) {
+                        //
+                    });
+                    itemEl.addEventListener('mouseout', function(ev) {
+                        //
+                    });
+                }
+            }
+        }
+    })('test-target');
 }

@@ -1,0 +1,13 @@
+
+.section {}
+
+
+div.tooltip {
+    padding: 6px;
+    background: #ffffff;
+    border: 1px #76808C solid;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    z-index: 9999;
+}
