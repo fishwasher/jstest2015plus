@@ -1,4 +1,4 @@
-!function(win, doc){
+!function(){
 
     var features = {
 
@@ -96,6 +96,14 @@
                 test: 'test=function(){var g=function*(){yield 1;},i=g(); return i.next().value;}();',
                 ecma: 'http://www.ecma-international.org/ecma-262/6.0/#sec-generator-function-definitions',
                 ver: 'es6'
+            },
+
+            {
+                title: 'Asynchronous function syntax with <code>async</code> and <code>await</code> keywords',
+                test: 'test=function(){var f1=function(){return new Promise(function(res,rej){setTimeout(function(){res("done");}, 3333);});};(async function(){var msg=await f1();console.log(msg);})();return true;};',
+                tip: 'async function someAsyncFunc(){\n\tvar result = await somePromiseMakingFunc();\n\t// continue after getting promise resolved\n\tconsole.log(result);\n}',
+                ecma: '',
+                ver: 'js17'
             },
 
             {
@@ -293,91 +301,71 @@
         }
         return a;
     };
-    /*
-    var toolTip = function(content) {
-        var id = 'tooltip-0857268587692987', tip = document.getElementById(id);
-        if (!tip) {
-            tip = document.createElement('div');
-            div.setAttribute('id', id);
-            div.className = 'tooltip';
-            document.body.appendChild(tip);
-        }
-        tip.innerHTML = content || '';
-        return tip;
+
+    // Create tooltip (from example #1 at https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onmousemove)
+    var oTooltip = new (function() {
+        var nOverX, nOverY, nLeftPos, nTopPos, oNode, bOff = true;
+        
+        this.follow = function (oMsEvnt1) {
+            if (bOff) {
+                return;
+            }
+            var nMoveX =  oMsEvnt1.clientX, nMoveY =  oMsEvnt1.clientY;
+            nLeftPos += nMoveX - nOverX; nTopPos += nMoveY - nOverY;
+            oNode.style.left = nLeftPos + "px";
+            oNode.style.top = nTopPos + "px";
+            nOverX = nMoveX; nOverY = nMoveY;
+        };
+        this.remove = function () {
+            if (bOff) {
+                return;
+            }
+            bOff = true;
+            document.body.removeChild(oNode);
+        };
+        
+        this.append = function (oMsEvnt2, sTxtContent) {
+            oNode.innerHTML = sTxtContent;
+            if (bOff) {
+                document.body.appendChild(oNode);
+                bOff = false;
+            }
+            var nScrollX = document.documentElement.scrollLeft || document.body.scrollLeft,
+                nScrollY = document.documentElement.scrollTop || document.body.scrollTop,
+                nWidth = oNode.offsetWidth,
+                nHeight = oNode.offsetHeight;
+            nOverX = oMsEvnt2.clientX;
+            nOverY = oMsEvnt2.clientY;
+            nLeftPos = document.body.offsetWidth - nOverX - nScrollX > nWidth ? nOverX + nScrollX + 10 : document.body.offsetWidth - nWidth + 16;
+            nTopPos = nOverY - nHeight > 6 ? nOverY + nScrollY - nHeight - 7 : nOverY + nScrollY + 20;
+            oNode.style.left = nLeftPos + "px";
+            oNode.style.top = nTopPos + "px";
+        };
+        
+        this.init = function() {
+            oNode = document.createElement("div");
+            oNode.className = "tooltip";
+            oNode.style.position = "absolute";
+        };
+    })();
+    
+    // Add tooltip to an element
+    var addTooltip = function(el, content) {
+        el.addEventListener('mouseover', function(event){
+            oTooltip.append(event, content);
+        });
+        el.addEventListener('mousemove', function(event){
+            oTooltip.follow(event);
+        });
+        el.addEventListener('mouseout', function(event){
+            oTooltip.remove(event);
+        });
     };
-    */
-
-
-var oTooltip = new (function() {
-    var
-        nOverX,
-        nOverY,
-        nLeftPos,
-        nTopPos,
-        oNode,
-        bOff = true;
-
-    this.follow = function (oMsEvnt1) {
-        if (bOff) {
-            return;
-        }
-        var nMoveX =  oMsEvnt1.clientX, nMoveY =  oMsEvnt1.clientY;
-        nLeftPos += nMoveX - nOverX; nTopPos += nMoveY - nOverY;
-        oNode.style.left = nLeftPos + "px";
-        oNode.style.top = nTopPos + "px";
-        nOverX = nMoveX; nOverY = nMoveY;
-    };
-
-    this.remove = function () {
-        if (bOff) { return; }
-        bOff = true; document.body.removeChild(oNode);
-    };
-
-    this.append = function (oMsEvnt2, sTxtContent) {
-        oNode.innerHTML = sTxtContent;
-        if (bOff) {
-            document.body.appendChild(oNode);
-            bOff = false;
-        }
-        var
-            nScrollX = document.documentElement.scrollLeft || document.body.scrollLeft,
-            nScrollY = document.documentElement.scrollTop || document.body.scrollTop,
-            nWidth = oNode.offsetWidth,
-            nHeight = oNode.offsetHeight;
-        nOverX = oMsEvnt2.clientX; nOverY = oMsEvnt2.clientY;
-        nLeftPos = document.body.offsetWidth - nOverX - nScrollX > nWidth ? nOverX + nScrollX + 10 : document.body.offsetWidth - nWidth + 16;
-        nTopPos = nOverY - nHeight > 6 ? nOverY + nScrollY - nHeight - 7 : nOverY + nScrollY + 20;
-        oNode.style.left = nLeftPos + "px";
-        oNode.style.top = nTopPos + "px";
-    };
-  this.init = function() {
-    oNode = document.createElement("div");
-    oNode.className = "tooltip";
-    oNode.style.position = "absolute";
-  };
-})();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     // render tests
     (function(targId) {
         var targEl = document.getElementById(targId);
+        targEl.innerHtml = '';
         for (var sectTitle in features) {
             var
                 sectEl = makeEl('div'),
@@ -388,17 +376,7 @@ var oTooltip = new (function() {
             titleEl.innerHTML = sectTitle;
             sectEl.appendChild(titleEl);
             for (var i = 0, n = featList.length; i < n; i++) {
-                var
-                    feat = featList[i],
-                    testVal,
-                    descrEl,
-                    testEl,
-                    mdnEl,
-                    ecmaEl,
-                    verEl,
-                    itemEl,
-                    subEl,
-                    tipEl;
+                var feat = featList[i], testVal, descrEl, testEl, mdnEl, ecmaEl, verEl, itemEl, subEl, tipEl;
                 if (!feat.title || !feat.test) {
                     continue;
                 }
@@ -424,14 +402,16 @@ var oTooltip = new (function() {
                 }
                 itemEl.appendChild(subEl);
                 if (feat.tip) {
-                    itemEl.addEventListener('mouseenter', function(ev) {
-                        //
-                    });
-                    itemEl.addEventListener('mouseout', function(ev) {
-                        //
-                    });
+                    addTooltip(itemEl, feat.tip);
                 }
             }
+            featsEl.appendChild(itemEl);
+            sectEl.appendChild(featsEl);
+            targEl.appendChild(sectEl);
         }
     })('test-target');
-}
+    
+    window.addEventListener('load', function(){
+        oTooltip.init();
+    });
+}();
