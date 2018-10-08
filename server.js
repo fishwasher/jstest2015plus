@@ -2,14 +2,11 @@
 
 const port = process.env.PORT || 80;
 
-const http = require("http");
+const express = require('express');
+const app = express();
 
-const server = http.createServer(function (req, res) {
-	res.end("Hello pretty opeNode World!");
+app.get('/', function (req, res) {
+  res.send('Hello World');
 })
-
-server.listen(port, (err) => {
-	if ( ! err) {
-		console.log(`server is listening on ${port}`);
-	}
-})
+ 
+app.listen(port);
