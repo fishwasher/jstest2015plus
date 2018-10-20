@@ -31,19 +31,47 @@ const logger = winston.createLogger({
 async function build() {
   fs.emptyDirSync(config.pathBuild);
 
-  const
-    lessStr = fs.readFileSync(config.lessSrc),
-    jsStr = fs.readFileSync(config.jsSrc);
+  let
+    lessStr = fs.readFileSync(config.lessSrc).toString(),
+    jsStr = fs.readFileSync(config.jsSrc).toString();
 
   logger.info('processing .less into .css');
-  //const css = await less.render(lessStr, {plugins: [autoprefix]});
-  const css = await less.render(lessStr);
+
+  let proc, css;
+  try {
+    //proc = await less.render(lessStr, {plugins: [autoprefix]});
+    proc = await less.render(lessStr);
+    css = proc.css;
+  } catch(x) {
+    logger.error('Error in less.render: ' + x);
+    throw x;
+  }
+
 
   logger.info('minifying CSS');
-  context.STYLE = new CleanCSS().minify(css);
+
+  let style = new CleanCSS().minify(css);
+
+  logger.info('typeof style is ' + typeof style);
+  logger.info(Object.keys(style).join());
+  logger.info('style.styles: ' + style.styles);
+
+  context.STYLE = style.styles;
 
   logger.info('minifying JS');
-  context.JS = UglifyJS.minify(jsStr);
+
+  let js = UglifyJS.minify(jsStr);
+  if (js.error) {
+    logger.error('UglifyJS.minify');
+    logger.error(js.error);
+  } else if (js.code) {
+    jsStr = js.code;
+  }
+
+  //logger.info('typeof js is ' + typeof js);
+  //logger.info(Object.keys(js).join());
+
+  context.JS = jsStr;
 
   logger.info('processing page template');
   const html = nunjucks.render(config.templateSrc, context);

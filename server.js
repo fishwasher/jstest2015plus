@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 
-const port = process.env.PORT || 80;
-
-const express = require('express');
-const app = express();
+const
+  config = require('./app/config'),
+  port = process.env.PORT || 80,
+  express = require('express'),
+  app = express(),
+  fs = require('fs'),
+  webpage = fs.readFileSync(config.indexHtml);
 
 app.get('/', function (req, res) {
-  res.send('Hello World');
+  res.send(webpage);
 })
- 
+
 app.listen(port);

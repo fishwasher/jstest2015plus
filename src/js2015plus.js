@@ -187,7 +187,7 @@
             {
                 title: 'String prototype <code>endsWith</code> method',
                 test: 'test=function(){return "ab".endsWith("b");}();',
-                tip: '"ab".endsWith("b");'
+                tip: '"ab".endsWith("b");',
                 ecma: '',
                 mdn: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith',
                 ver: 'es6'
@@ -243,10 +243,10 @@
             {
                 title: 'RegExp prototype <code>flags</code> property',
                 test: function(){
-                    const re = /xyz/g;
+                    var re = /xyz/g;
                     return re.flags === 'g';
                 },
-                tip: 'const re = /xyz/g; re.flags === "g";',
+                tip: 'var re = /xyz/g; re.flags === "g";',
                 ecma: '',
                 ver: 'es6'
             }
@@ -306,7 +306,7 @@
     // Create tooltip (from example #1 at https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onmousemove)
     var oTooltip = new (function() {
         var nOverX, nOverY, nLeftPos, nTopPos, oNode, bOff = true;
-        
+
         this.follow = function (oMsEvnt1) {
             if (bOff) {
                 return;
@@ -324,7 +324,7 @@
             bOff = true;
             document.body.removeChild(oNode);
         };
-        
+
         this.append = function (oMsEvnt2, sTxtContent) {
             oNode.innerHTML = sTxtContent;
             if (bOff) {
@@ -342,14 +342,14 @@
             oNode.style.left = nLeftPos + "px";
             oNode.style.top = nTopPos + "px";
         };
-        
+
         this.init = function() {
             oNode = document.createElement("div");
             oNode.className = "tooltip";
             oNode.style.position = "absolute";
         };
     })();
-    
+
     // Add tooltip to an element
     var addTooltip = function(el, content) {
         el.addEventListener('mouseover', function(event){
@@ -370,10 +370,11 @@
         for (var sectTitle in features) {
             var
                 sectEl = makeEl('div'),
-                sectEl.className = 'section';
                 titleEl = makeEl('h2'),
                 featsEl = makeEl('ul'),
                 featList = features[sectTitle];
+
+            sectEl.className = 'section';
             titleEl.innerHTML = sectTitle;
             sectEl.appendChild(titleEl);
             for (var i = 0, n = featList.length; i < n; i++) {
@@ -411,7 +412,7 @@
             targEl.appendChild(sectEl);
         }
     })('test-target');
-    
+
     window.addEventListener('load', function(){
         oTooltip.init();
     });
