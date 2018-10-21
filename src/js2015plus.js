@@ -161,7 +161,7 @@
             {
                 title: 'Template literals',
                 test: 'test=function(){"use strict";var a=String.fromCharCode(98);return `a${a}c`==="abc"}()',
-                tip: 'const a = "b"; `a${a}c` === "abc";',
+                tip: 'const a = "b";\n`a${a}c` === "abc";',
                 ecma: 'http://www.ecma-international.org/ecma-262/6.0/#sec-template-literals',
                 ver: 'es6'
             },
@@ -205,7 +205,7 @@
             {
                 title: 'String prototype <code>codePointAt</code> method',
                 test: 'test=function(){return "a𐐷".codePointAt(1)===66615;}();',
-                tip: '"𐐷".charCodeAt(0) === 55297; "𐐷".codePointAt(0) === 66615;',
+                tip: '"𐐷".charCodeAt(0) === 55297;\n"𐐷".codePointAt(0) === 66615;',
                 ecma: '',
                 ver: 'es6'
             },
@@ -246,7 +246,7 @@
                     var re = /xyz/g;
                     return re.flags === 'g';
                 },
-                tip: 'var re = /xyz/g; re.flags === "g";',
+                tip: 'var re = /xyz/g;\nre.flags === "g";',
                 ecma: '',
                 ver: 'es6'
             }
@@ -254,20 +254,20 @@
     };
 
     var runTest = function(p) {
-        var t = typeof(p);
-        if ('function' === t) {
-            try {
-                return !!p();
-            } catch(x) {}
-            return false;
-        }
+        var t = typeof(p), ret = false;
         if ('string' === t) {
-            var test = false;
             try {
-                eval(s);
+                var test = false;
+                eval(p);
+                return !!test;
             } catch (x) {}
-            return test;
         }
+        else if ('function' === t) {
+            try {
+                ret = !!p();
+            } catch(x) {}
+        }
+        return ret;
     };
 
     var versionMap = {
@@ -276,20 +276,16 @@
         js17: 'JavaScript 2017'
     };
 
-    var withText = function(el, txt) {
-        if (txt) {
-            var tn = document.createTextNode(txt);
-            el.appendChild(tn);
-        }
-        return el;
-    };
-
     var makeEl = function(tagname, classname, txt) {
         var el = document.createElement(tagname);
         if (classname) {
             el.className = classname;
         }
-        return withText(el);
+        if (txt !== undefined) {
+          var tn = document.createTextNode(txt);
+          el.appendChild(tn);
+        }
+        return el;
     };
 
     var makeTextLink = function(href, txt, classname, targetBlank) {
@@ -297,8 +293,8 @@
         a.setAttribute('href', href);
         if (targetBlank || targetBlank === undefined) {
             a.setAttribute('target', '_blank');
-            a.setAttribute('noopener', '');
-            a.setAttribute('noreferrer', '');
+            a.setAttribute('noopener', true);
+            a.setAttribute('noreferrer', true);
         }
         return a;
     };
@@ -326,7 +322,7 @@
         };
 
         this.append = function (oMsEvnt2, sTxtContent) {
-            oNode.innerHTML = sTxtContent;
+            oNode.innerHTML = '<pre>' + sTxtContent + '</pre>';
             if (bOff) {
                 document.body.appendChild(oNode);
                 bOff = false;
@@ -364,7 +360,7 @@
     };
 
     // render tests
-    (function(targId) {
+    var runtest = function(targId) {
         var targEl = document.getElementById(targId);
         targEl.innerHtml = '';
         for (var sectTitle in features) {
@@ -377,6 +373,8 @@
             sectEl.className = 'section';
             titleEl.innerHTML = sectTitle;
             sectEl.appendChild(titleEl);
+            featsEl.className = 'features';
+
             for (var i = 0, n = featList.length; i < n; i++) {
                 var feat = featList[i], testVal, descrEl, testEl, mdnEl, ecmaEl, verEl, itemEl, subEl, tipEl;
                 if (!feat.title || !feat.test) {
@@ -406,14 +404,15 @@
                 if (feat.tip) {
                     addTooltip(itemEl, feat.tip);
                 }
+                featsEl.appendChild(itemEl);
             }
-            featsEl.appendChild(itemEl);
             sectEl.appendChild(featsEl);
             targEl.appendChild(sectEl);
         }
-    })('test-target');
+        oTooltip.init();
+    };
 
     window.addEventListener('load', function(){
-        oTooltip.init();
+        runtest('test-target');
     });
 }();

@@ -33,52 +33,53 @@ async function build() {
 
   let
     lessStr = fs.readFileSync(config.lessSrc).toString(),
-    jsStr = fs.readFileSync(config.jsSrc).toString();
+    jsStr = fs.readFileSync(config.jsSrc).toString(),
+    cssStr, cssMinStr, jsMinStr, html, result, error;
 
   logger.info('processing .less into .css');
 
-  let proc, css;
   try {
-    //proc = await less.render(lessStr, {plugins: [autoprefix]});
-    proc = await less.render(lessStr);
-    css = proc.css;
+    //result = await less.render(lessStr, {plugins: [autoprefix]});
+    result = await less.render(lessStr);
+    cssStr = result.css;
+    if (!cssStr) {
+      error = result.error || new Error('LESS processing failed');
+      throw error;
+    }
+    result = new CleanCSS().minify(cssStr);
+    if (!result.styles) {
+      error = result.error || new Error('minifying CSS failed');
+      throw error;
+    }
+    cssMinStr = result.styles;
   } catch(x) {
-    logger.error('Error in less.render: ' + x);
+    logger.error('Error processing CSS: ' + x);
     throw x;
   }
 
-
-  logger.info('minifying CSS');
-
-  let style = new CleanCSS().minify(css);
-
-  logger.info('typeof style is ' + typeof style);
-  logger.info(Object.keys(style).join());
-  logger.info('style.styles: ' + style.styles);
-
-  context.STYLE = style.styles;
-
   logger.info('minifying JS');
 
-  let js = UglifyJS.minify(jsStr);
-  if (js.error) {
-    logger.error('UglifyJS.minify');
-    logger.error(js.error);
-  } else if (js.code) {
-    jsStr = js.code;
+  try {
+    result = UglifyJS.minify(jsStr);
+    if (!result.code) {
+      error = result.error || new Error('minifying JS failed');
+      throw error;
+    }
+    jsMinStr = result.code;
+  } catch(x) {
+    logger.error('Error processing JS: ' + x);
+    throw x;
   }
+  context.STYLE = cssMinStr;
+  context.JS = jsMinStr;
 
-  //logger.info('typeof js is ' + typeof js);
-  //logger.info(Object.keys(js).join());
+  logger.info('rendering page template');
 
-  context.JS = jsStr;
-
-  logger.info('processing page template');
-  const html = nunjucks.render(config.templateSrc, context);
+  html = nunjucks.render(config.templateSrc, context);
 
   fs.writeFileSync(config.indexHtml, html);
+
+  logger.info('Build process is done.')
 }
 
-build()
-  .then(logger.info('Build process is done.'))
-  .catch(err => logger.error(err));
+build();
