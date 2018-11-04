@@ -14,6 +14,6 @@ module.exports = {
     pathBuild,
     templateSrc: path.join(pathSrc, 'page.html'),
     lessSrc: path.join(pathSrc, 'styles.less'),
-    jsSrc: path.join(pathSrc, 'js2015plus.js'),
+    jsSrc: path.join(pathSrc, 'jstest.js'),
     indexHtml: path.join(pathBuild, 'app.html')
 };
