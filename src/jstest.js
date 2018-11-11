@@ -300,9 +300,11 @@
       modal = {
         show: function(content) {
           if (content !== null && content !== undefined) {
+            /*
             if (elInner) {
               elInner.parentElement.removeChild(elInner);
             }
+            */
             elInner = makeEl('div', 'modal-inner');
             elInner.innerHTML = content;
             elOvl.appendChild(elInner);
@@ -310,6 +312,7 @@
           elMod.style.display = 'block';
         },
         hide: function() {
+          elInner.parentElement.removeChild(elInner);
           elMod.style.display = 'none';
         }
       }
@@ -320,7 +323,45 @@
       elOvl.appendChild(elX);
       elMod.appendChild(elOvl);
       document.body.appendChild(elMod);
-    }
+    };
+
+    var renderItem = function(feat, parent) {
+      var testVal, descrEl, testEl, infoHtml;
+      if (!parent || !feat || !feat.title || !feat.test) {
+          return;
+      }
+      testVal = runTest(feat.test);
+      itemEl = makeEl('li', 'feature ' + (testVal ? 'pass' : 'fail'));
+      testEl = makeEl('span', 'checkmark');
+      descrEl = makeEl('span', 'descr');
+      descrEl.innerHTML = feat.title;
+      itemEl.appendChild(testEl);
+      itemEl.appendChild(descrEl);
+      infoHtml = '<h3>' + feat.title + '</h3>\n';
+      if (feat.ver && versionMap[feat.ver]) {
+        infoHtml += '<p class="version">' + versionMap[feat.ver] + '</p>\n';
+      }
+      if (feat.ecma || feat.mdn) {
+        infoHtml += '<div class="reflinks">\n';
+        if (feat.ecma) {
+          infoHtml += '<a class="ecma" href="' + feat.ecma + '">ECMA</a>\n';
+        }
+        if (feat.mdn) {
+          infoHtml += '<a class="mdn" href="' + feat.mdn + '">MDN</a>\n';
+        }
+        infoHtml += '</div>';
+      }
+      if (feat.tip) {
+          infoHtml += '<h3>Example</h3>\n<pre>\n' + feat.tip + '\n</pre>';
+      }
+      if (infoHtml.length) {
+        itemEl.addEventListener('click', function(){
+          modal.show(infoHtml);
+        });
+      }
+      parent.appendChild(itemEl);
+    };
+
 
     // render tests
     var runtest = function(targId) {
@@ -339,40 +380,7 @@
             featsEl.className = 'features';
 
             for (var i = 0, n = featList.length; i < n; i++) {
-                var feat = featList[i], testVal, descrEl, testEl, infoHtml;//, mdnEl, ecmaEl, verEl, itemEl, subEl, tipEl;
-                if (!feat.title || !feat.test) {
-                    continue;
-                }
-                testVal = runTest(feat.test);
-                itemEl = makeEl('li', 'feature ' + (testVal ? 'pass' : 'fail'));
-                testEl = makeEl('span', 'checkmark');
-                descrEl = makeEl('span', 'descr');
-                descrEl.innerHTML = feat.title;
-                itemEl.appendChild(testEl);
-                itemEl.appendChild(descrEl);
-                infoHtml = '<h3>' + feat.title + '</h3>\n';
-                if (feat.ver && versionMap[feat.ver]) {
-                  infoHtml += '<p class="version">' + versionMap[feat.ver] + '</p>\n';
-                }
-                if (feat.ecma || feat.mdn) {
-                  infoHtml += '<div class="reflinks">\n';
-                  if (feat.ecma) {
-                    infoHtml += '<a class="ecma" href="' + feat.ecma + '" target="_blank" noreferrer noopener>ECMA</a>\n';
-                  }
-                  if (feat.mdn) {
-                    infoHtml += '<a class="mdn" href="' + feat.mdn + '" target="_blank" noreferrer noopener>MDN</a>\n';
-                  }
-                  infoHtml += '</div>';
-                }
-
-                if (feat.tip) {
-                    infoHtml += '<h3>Example</h3>\n<pre>\n' + feat.tip + '\n</pre>';
-                }
-                if (infoHtml.length) {
-                  itemEl.addEventListener('click', function(){
-                    modal.show(infoHtml);
-                  });
-                }
+                renderItem(featList[i], featsEl);
                 featsEl.appendChild(itemEl);
             }
             sectEl.appendChild(featsEl);
