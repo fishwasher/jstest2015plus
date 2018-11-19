@@ -1,4 +1,5 @@
 node_modules
+build
 .openode
 package-lock.json
 Dockerfile*
