@@ -16,7 +16,7 @@ const
     autoprefix = new LessAutoprefix({ browsers: ['last 2 versions'] }),
     UglifyJS = require('uglify-js'),
     CleanCSS = require('clean-css'),
-    config = require('../app/config.js'),
+    config = require('../config.js'),
     context = require('../app/context.js').create();
 
 const logger = winston.createLogger({
@@ -25,15 +25,19 @@ const logger = winston.createLogger({
   transports: [new winston.transports.Console()]
 });
 
-
+const joinFilesStr = fileList => {
+  return fileList.map(fpath => {
+    return fs.readFileSync(fpath).toString();
+  }).join('\n');
+};
 
 
 async function build() {
   fs.emptyDirSync(config.pathBuild);
 
   let
-    lessStr = fs.readFileSync(config.lessSrc).toString(),
-    jsStr = fs.readFileSync(config.jsSrc).toString(),
+    lessStr = joinFilesStr(config.lessSrcs),// fs.readFileSync(config.lessSrc).toString(),
+    jsStr = joinFilesStr(config.jsSrcs),//fs.readFileSync(config.jsSrc).toString(),
     cssStr, cssMinStr, jsMinStr, html, result, error;
 
   logger.info('processing .less into .css');

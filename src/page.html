@@ -10,12 +10,10 @@
 <body>
 <noscript>{{NOSCRIPT}}</noscript>
 <div class="pagewrap">
-<header><h1>{{TITLE}}</h1></header>
+<div class="header"><h1>{{TITLE}}</h1></div>
 <div id="test-target"></div>
 <footer>{{FOOTER}}</footer>
 </div>
-<script>
-{{JS | safe}}
-</script>
+<script>!function(){"use strict";{{JS | safe}}}()</script>
 </body>
 </html>

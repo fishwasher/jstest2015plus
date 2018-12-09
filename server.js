@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const
-  config = require('./app/config'),
+  config = require('./config'),
   port = process.env.PORT || 80,
   express = require('express'),
   app = express(),
