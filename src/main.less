@@ -1,25 +1,30 @@
-@font-family-sans: Arial,Helvetica,sans-serif;
-@font-family-mono: "courier new", monospace;
-@font-family-serif: Georgia,Cambria,"Times New Roman",Times,serif;
-@bgcolor-body: #ccc;
-@bgcolor-pagewrap: #fff;
-@bgcolor-pass: #6c6;
-@bgcolor-fail: #c66;
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Source+Code+Pro');
+@font-family-sans: 'Open Sans',Roboto, Arial,Helvetica,sans-serif;
+@font-family-mono: 'Source Code Pro','Courier New',monospace;
+@font-family-serif: Georgia,Cambria,'Times New Roman',Times,serif;
+@bgcolor-body: #000;
+@bgcolor-pagewrap: transparent;
+@bgcolor-pass: #696;
+@bgcolor-fail: #966;
 @bgcolor-modal: rgba(0,0,0,0.4);
 @bgcolor-modal-content: #dcdcdc;
-@body-margin-top: 2em;
+
+@body-text-color: #fff;
+@body-font-size: 100%;
 
 @z-index-modal: 10;
 
 @width-page-wrap: 860px;
+@padding-page-wrap: 3%;
 
 body {
   margin: 0;
-  margin-top: @body-margin-top;
+  //margin-top: @body-margin-top;
   padding: 0;
   font-family: @font-family-sans;
   background-color: @bgcolor-body;
-  font-size: 100%;
+  font-size: @body-font-size;
+  color: @body-text-color;
 }
 
 a {
@@ -27,12 +32,129 @@ a {
 }
 
 .pagewrap {
-  width: 95%;
+  width: 100%;
   max-width: @width-page-wrap;
   margin: 0 auto;
   text-align: left;
-  padding: 1%;
+  padding: 0 @padding-page-wrap;
   background-color: @bgcolor-pagewrap;
+}
+
+pre, code {
+  color: #333;
+  font-size: 1.1rem;
+  font-family: @font-family-mono;
+}
+
+.header {
+  //position: fixed;
+  //top: 0;
+  //left: 0;
+  width: 100%;
+  //padding: @padding-page-wrap;
+  //height: @body-margin-top;
+  //background-color: @bgcolor-body;
+  //border-bottom: 1px solid #000;
+
+  h1 {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    width: 100%;
+  }
+
+  h1, .ua {
+    max-width: @width-page-wrap;
+    margin: 0 auto;
+  }
+
+  .ua {
+    font-family: @font-family-mono;
+  }
+}
+
+.section {
+
+  h2 {
+    font-size: 1rem;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      margin: 0.1rem 0;
+      padding: 0.2rem;
+      line-height: 1.0;
+      display: block;
+      width: 100%;
+      min-height: 2.2rem;
+      cursor: pointer;
+
+      code {
+        font-weight: bold;
+      }
+
+      .row {
+        display: table-row;
+        width: 100%;
+
+        span {
+          display: table-cell;
+          height: 100%;
+          vertical-align: middle;
+        }
+      }
+
+      &.pass {
+        background-color: @bgcolor-pass;
+
+        code {
+          color: #cfc;
+        }
+
+        .checkmark {
+          &::before {
+            content: '✔';
+            color: #cfc;
+          }
+        }
+      }
+
+      &.fail {
+        background-color: @bgcolor-fail;
+
+        code {
+          color: #fcc;
+        }
+
+        .checkmark {
+          &::before {
+            content: '✖';
+            color: #fcc;
+          }
+        }
+      }
+
+      .descr {
+        code {
+          font-size: 1.1rem;
+          //color: #404040;
+        }
+      }
+
+      .checkmark {
+        width: 2rem;
+        text-align: center;
+
+        &::before {
+          font-size: 2rem;
+          //color: #fff;
+        }
+      }
+    }
+  }
 }
 
 /* modal box */
@@ -93,98 +215,6 @@ a {
 
         &.mdn {
           background-color: #0c0;
-        }
-      }
-
-      pre {
-        color: #333;
-        font: 1rem @font-family-mono;
-      }
-    }
-  }
-}
-
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: @body-margin-top;
-  background-color: @bgcolor-pagewrap;
-  border-bottom: 1px solid #ccc;
-
-  h1 {
-    font-size: 1.5rem;
-    line-height: 1.2;
-    width: 100%;
-    max-width: @width-page-wrap;
-    margin: 0 auto;
-  }
-}
-
-.section {
-
-  ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-
-    li {
-      margin: 0.1rem 0;
-      padding: 0.2rem;
-      line-height: 1.0;
-      display: block;
-      width: 100%;
-      min-height: 2.2rem;
-      cursor: pointer;
-
-      .row {
-        display: table-row;
-        width: 100%;
-
-        span {
-          display: table-cell;
-          height: 100%;
-          vertical-align: middle;
-        }
-      }
-
-      &.pass {
-        background-color: @bgcolor-pass;
-
-        .checkmark {
-          &::before {
-            content: '✔';
-          }
-        }
-      }
-
-      &.fail {
-        background-color: @bgcolor-fail;
-
-        .checkmark {
-          &::before {
-            content: '✖';
-          }
-        }
-      }
-
-      .descr {
-        code {
-          //font-size: 1.2rem;
-          //font-weight: bold;
-          color: #000;
-          background-color: #ccc;
-        }
-      }
-
-      .checkmark {
-        width: 2rem;
-        text-align: center;
-
-        &::before {
-          font-size: 2rem;
-          color: #fff;
         }
       }
     }

@@ -127,7 +127,12 @@
         }
     };
 
+    var renderUA = function() {
+      document.getElementById('ua-target').innerHTML = navigator.userAgent;
+    };
+
     window.addEventListener('load', function(){
-        createModal();
-        runtest('test-target');
+      renderUA();
+      createModal();
+      runtest('test-target');
     });
