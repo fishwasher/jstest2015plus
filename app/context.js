@@ -1,8 +1,8 @@
 // context variables for HTML template
 
 const
-  TITLE = 'Modern JavaScript Test Page',
-  FOOTER = 'a good footer';
+  TITLE = 'Modern JavaScript Browser Test',
+  FOOTER = '&copy; 2019 Vlad Podvorny';
 
 module.exports = {
   create() {

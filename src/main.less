@@ -1,34 +1,45 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans|Source+Code+Pro');
-@font-family-sans: 'Open Sans',Roboto, Arial,Helvetica,sans-serif;
-@font-family-mono: 'Source Code Pro','Courier New',monospace;
+@font-family-sans: 'Montserrat',Roboto, Arial,Helvetica,sans-serif;
+@font-family-mono: 'Roboto Mono','Courier New',monospace;
 @font-family-serif: Georgia,Cambria,'Times New Roman',Times,serif;
 @bgcolor-body: #000;
 @bgcolor-pagewrap: transparent;
-@bgcolor-pass: #696;
-@bgcolor-fail: #966;
+
 @bgcolor-modal: rgba(0,0,0,0.4);
 @bgcolor-modal-content: #dcdcdc;
 
-@body-text-color: #fff;
-@body-font-size: 100%;
+@text-color-body: #ccc;
+@font-size-body: 100%;
 
 @z-index-modal: 10;
 
 @width-page-wrap: 860px;
-@padding-page-wrap: 3%;
+
+@bgcolor-pass: #393;
+@bgcolor-fail: #933;
+
+@text-color-pass: #cfc;
+@text-color-fail: #fcc;
 
 body {
   margin: 0;
-  //margin-top: @body-margin-top;
   padding: 0;
   font-family: @font-family-sans;
   background-color: @bgcolor-body;
-  font-size: @body-font-size;
-  color: @body-text-color;
+  font-size: @font-size-body;
+  color: @text-color-body;
 }
 
 a {
   text-decoration: none;
+}
+
+#ua-target {
+  font-family: @font-family-mono;
+  color: @text-color-pass;
+
+  &.fail {
+    color: @text-color-fail;
+  }
 }
 
 .pagewrap {
@@ -36,39 +47,22 @@ a {
   max-width: @width-page-wrap;
   margin: 0 auto;
   text-align: left;
-  padding: 0 @padding-page-wrap;
+  padding: 0 3%;
   background-color: @bgcolor-pagewrap;
 }
 
 pre, code {
-  color: #333;
-  font-size: 1.1rem;
+  //color: #333;
+  //font-size: 1.1rem;
   font-family: @font-family-mono;
 }
 
 .header {
-  //position: fixed;
-  //top: 0;
-  //left: 0;
   width: 100%;
-  //padding: @padding-page-wrap;
-  //height: @body-margin-top;
-  //background-color: @bgcolor-body;
-  //border-bottom: 1px solid #000;
 
   h1 {
     font-size: 1.5rem;
     line-height: 1.2;
-    width: 100%;
-  }
-
-  h1, .ua {
-    max-width: @width-page-wrap;
-    margin: 0 auto;
-  }
-
-  .ua {
-    font-family: @font-family-mono;
   }
 }
 
@@ -94,6 +88,7 @@ pre, code {
 
       code {
         font-weight: bold;
+        color: #ff6;
       }
 
       .row {
@@ -107,40 +102,9 @@ pre, code {
         }
       }
 
-      &.pass {
-        background-color: @bgcolor-pass;
-
-        code {
-          color: #cfc;
-        }
-
-        .checkmark {
-          &::before {
-            content: '✔';
-            color: #cfc;
-          }
-        }
-      }
-
-      &.fail {
-        background-color: @bgcolor-fail;
-
-        code {
-          color: #fcc;
-        }
-
-        .checkmark {
-          &::before {
-            content: '✖';
-            color: #fcc;
-          }
-        }
-      }
-
       .descr {
         code {
           font-size: 1.1rem;
-          //color: #404040;
         }
       }
 
@@ -150,71 +114,30 @@ pre, code {
 
         &::before {
           font-size: 2rem;
-          //color: #fff;
         }
       }
-    }
-  }
-}
 
-/* modal box */
+      &.pass {
+        background-color: @bgcolor-pass;
+        color: @text-color-pass;
 
-.modal-wrap {
-  display: none;
-  position: fixed;
-  z-index: @z-index-modal;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: @bgcolor-modal;
-
-  .modal-overlay {
-    background-color: @bgcolor-modal-content;
-    margin: 0 auto;
-    width: 80%;
-    border-radius: 0.5rem;
-    position: relative;
-
-    .modal-close {
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: @z-index-modal + 1;
-      font: 3rem @font-family-sans;
-      color: #ccc;
-      background-color: #999;
-      cursor: pointer;
-      display: table-cell;
-      width: 3rem;
-      height: 3rem;
-      text-align: center;
-      vertical-align: middle;
-      line-height: 1;
-      border-radius: 3rem;
-    }
-
-    .modal-inner {
-      text-align: left;
-      font: 1rem @font-family-sans;
-      padding: 1rem 2rem;
-
-      h3 {
-        font: 1.1rem @font-family-sans;
-        color: #666;
+        .checkmark {
+          &::before {
+            content: '✔';
+            color: @text-color-pass;
+          }
+        }
       }
 
-      .reflinks a {
-        display: inline-block;
-        margin-right: 0.5rem;
-        padding: 4px;
+      &.fail {
+        background-color: @bgcolor-fail;
+        color: @text-color-fail;
 
-        &.ecma {
-          background-color: #cc0;
-        }
-
-        &.mdn {
-          background-color: #0c0;
+        .checkmark {
+          &::before {
+            content: '✖';
+            color: @text-color-fail;
+          }
         }
       }
     }

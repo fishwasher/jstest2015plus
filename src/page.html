@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
 <meta name="author" content="Vlad Podvorny">
+<link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto+Mono" rel="stylesheet">
 <style>
 {{STYLE | safe}}
 </style>
@@ -11,9 +12,9 @@
 <body>
 <noscript>{{NOSCRIPT}}</noscript>
 <div class="pagewrap">
-<div class="header"><h1>{{TITLE}}</h1><div id="ua-target" class="ua"></div></div>
+<div class="header"><h1>{{TITLE}}</h1><div id="ua-target"></div></div>
 <div id="test-target"></div>
-<footer>{{FOOTER}}</footer>
+<footer>{{FOOTER | safe}}</footer>
 </div>
 <script>!function(){"use strict";{{JS | safe}}}()</script>
 </body>

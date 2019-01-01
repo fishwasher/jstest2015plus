@@ -7,8 +7,8 @@ const
     absPath = relativePath => path.resolve(dirApp, relativePath),
     pathSrc = absPath('src'),
     pathBuild = absPath('build'),
-    lessFiles = ['main.less', 'small.less', 'medium-up.less', 'medium.less', 'large.less'],
-    jsFiles = ['p1-feats.js', 'jstest.js'];
+    lessFiles = ['main.less', 'modal.less', 'small.less', 'medium-up.less', 'medium.less', 'large.less'],
+    jsFiles = ['p1-feats.js', 'p2-test.js'];
 
 
 module.exports = {
