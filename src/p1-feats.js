@@ -11,12 +11,7 @@ var feats = {
         {
             title: '<code>let</code> and <code>const</code> declarations',
             test: 'test=function(){const a=true;let b=true;return a&&b}()',
-            tip:  '<b>let</b> x, y = 0;\n<b>const</b> z = "Hello",\n  arr = [],\n  obj = {prop: "value"};\n' +
-                  'x = 5;\ny = x;\narr.push("first entry");\n' +
-                  'obj.prop = "new value";\n<strike>z = "Goodbye";</strike> <i>// ERROR!</i>\n' +
-                  '<strike>arr = [];</strike> <i>// ERROR!</i>\n' +
-                  '<strike>obj = {};</strike> <i>// ERROR!</i>\n' +
-                  '<strike>let x = 1;</strike> <i>// ERROR!</i>\n',
+            tip:  '<b>let</b> x, y = 0;\n<b>const</b> pi = Math.PI;',
             ecma: 'http://www.ecma-international.org/ecma-262/6.0/#sec-let-and-const-declarations',
             ver: 'es6'
         },

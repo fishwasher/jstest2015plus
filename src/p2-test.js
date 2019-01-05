@@ -83,6 +83,9 @@ runTest = function(p) {
     if (feat.ver && editions[feat.ver]) {
         infoHtml += '<p class="version">' + editions[feat.ver] + '</p>\n';
     }
+    if (feat.tip) {
+      infoHtml += '<h4>Example</h4>\n<pre>\n' + feat.tip + '\n</pre>';
+    }
     if (feat.ecma || feat.mdn) {
       infoHtml += '<div class="reflinks">\n';
       if (feat.ecma) {
@@ -92,9 +95,6 @@ runTest = function(p) {
         infoHtml += '<a class="mdn" href="' + feat.mdn + '">MDN</a>\n';
       }
       infoHtml += '</div>';
-    }
-    if (feat.tip) {
-      infoHtml += '<h3>Example</h3>\n<pre>\n' + feat.tip + '\n</pre>';
     }
     if (infoHtml.length) {
       itemEl.addEventListener('click', function(){
