@@ -1,6 +1,7 @@
 'use strict';
 
 process.on('unhandledRejection', err => {
+  console.log(err);
   throw err;
 });
 

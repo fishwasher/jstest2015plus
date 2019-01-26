@@ -8,7 +8,11 @@ const
     pathSrc = absPath('src'),
     pathBuild = absPath('build'),
     lessFiles = ['main.less', 'modal.less', 'small.less', 'medium-up.less', 'medium.less', 'large.less'],
-    jsFiles = ['p1-feats.js', 'p2-test.js'];
+    jsFiles = ['feats.js',
+      'feats-func.js',
+      'feats-builtins.js',
+      'feats-object.js',
+      'test.js'];
 
 
 module.exports = {

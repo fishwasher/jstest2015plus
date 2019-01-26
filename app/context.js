@@ -1,7 +1,7 @@
 // context variables for HTML template
 
 const
-  TITLE = 'Modern JavaScript Browser Test',
+  TITLE = 'Modern JavaScript Browser Support Test',
   FOOTER = '&copy; 2019 Vlad Podvorny';
 
 module.exports = {

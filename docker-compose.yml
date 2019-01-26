@@ -1,0 +1,17 @@
+# DEV ENVIRONMENT
+# This docker-compose file will start the next.js app in a docker container
+# in dev mode which can be accessed at http://localhost:8888.
+
+version: '3.3'
+
+services:
+  estest:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    container_name: es6test
+    command: npm run local
+    volumes:
+      - .:/es6
+    ports:
+      - 8888:8888
