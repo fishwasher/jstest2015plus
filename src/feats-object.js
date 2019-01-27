@@ -48,13 +48,9 @@ feats['Object Extensions'] = [
       ver: 'es6'
   },
   {
-      title: '',
-      test: 'test=function(){}()',
-      ver: 'es6'
-  },
-  {
-      title: '',
-      test: 'test=function(){}()',
+      title: '<code>super</code> Reference',
+      test: 'test=function(){let a={f(){return 1;}},b={f(){return super.f()+1;}};Object.setPrototypeOf(b,a);return b.f()===2}()',
+      tip: 'let obj1 = {\n  f() {\n    return 1;\n  }\n};\nlet obj2 = {\n  f() {\n    return super.f() + 1;\n  }\n};\nObject.setPrototypeOf(obj2, obj1);\nconsole.log(obj2.f()); // 2',
       ver: 'es6'
   },
   {

@@ -9,9 +9,12 @@ const
     pathBuild = absPath('build'),
     lessFiles = ['main.less', 'modal.less', 'small.less', 'medium-up.less', 'medium.less', 'large.less'],
     jsFiles = ['feats.js',
+      'feats-syntax.js',
       'feats-func.js',
       'feats-builtins.js',
       'feats-object.js',
+      'feats-strings.js',
+      'feats-regex.js',
       'test.js'];
 
 
