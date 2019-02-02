@@ -28,6 +28,7 @@ feats['Syntax'] = [
     {
         title: 'Object literal syntax extension',
         test: 'test=function(){var prop=true;return{prop}}().prop',
+        tip: 'function createPoint(x, y) {\n  return {\n    x,\n    y\n  };\n}',
         ecma: 'http://www.ecma-international.org/ecma-262/6.0/#sec-object-initialiser',
         ver: 'es6'
     },
@@ -35,6 +36,7 @@ feats['Syntax'] = [
     {
         title: '<code>for-of</code> loop',
         test: 'test=function(){var a=[0,1,2,3];for(var v of a){if(v===2){return true}}}()',
+        tip: 'let nums = [1, 2, 3];\n\n<b>for</b> (let n <b>of</b> nums) {\n  console.log(n);\n}',
         ecma: 'http://www.ecma-international.org/ecma-262/6.0/#sec-for-in-and-for-of-statements',
         ver: 'es6'
     },
@@ -42,19 +44,16 @@ feats['Syntax'] = [
     {
         title: 'Octal literal <code>0o</code> prefix',
         test: 'test=function(){"use strict";return 0o10===8}()',
+        tip: 'let num = <b>0o</b>10;\n\nconsole.log(num); <i>// 8</i>',
         ecma: 'http://www.ecma-international.org/ecma-262/6.0/#sec-literals-numeric-literals',
         ver: 'es6'
     },
 
     {
-        title: '<code>class</code> definition',
-        test: 'test=function(){class c{constructor(){this.b=true;}}return new c().b;}();',
+        title: '<code>class</code> Declaration and Expression',
+        test: 'test=function(){class c{constructor(){this.b=true;}}let c2=class{constructor(){this.b=true;}};return new c().b===new c2().b;}();',
+        tip: '<b>class</b> Cls {\n  constructor() {\n    this.prop = true;\n  }\n}\n\nlet Kls = <b>class</b> {\n  constructor() {\n    this.prop = true;\n  }\n}',
         ecma: 'http://www.ecma-international.org/ecma-262/6.0/#sec-class-definitions',
-        ver: 'es6'
-    },
-    {
-        title: '',
-        test: 'test=function(){}()',
         ver: 'es6'
     }
 ];
