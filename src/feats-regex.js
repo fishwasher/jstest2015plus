@@ -6,6 +6,7 @@ feats['Regular Expressions'] = [
                 var re = new RegExp('.', 'u');
                 return true;
             },
+        tip: 'var unicodePattern = /[\s\S]/g<b>u</b>;',
         ecma: 'http://www.ecma-international.org/ecma-262/6.0/#sec-get-regexp.prototype.unicode',
         ver: 'es6'
     },
@@ -16,6 +17,7 @@ feats['Regular Expressions'] = [
                 var re = new RegExp('.', 'y');
                 return true;
             },
+        tip: 'var stickyPattern = /abc/<b>y</b>;',
         ecma: 'http://www.ecma-international.org/ecma-262/6.0/#sec-get-regexp.prototype.sticky',
         ver: 'es6'
     },
@@ -27,7 +29,7 @@ feats['Regular Expressions'] = [
             return re.flags === 'g';
         },
         tip: 'var re = /xyz/g;\nre.flags === "g";',
-        ecma: '',
+        ecma: 'http://www.ecma-international.org/ecma-262/6.0/#sec-get-regexp.prototype.flags',
         ver: 'es6'
     }
 ];
