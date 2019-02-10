@@ -5,7 +5,7 @@ feats['Syntax'] = [
         title: '<code>let</code> and <code>const</code> declarations',
         test: 'test=function(){const a=true;let b=true;return a&&b}()',
         tip:  '<b>let</b> x, y = 0;\n<b>const</b> pi = Math.PI;',
-        ecma: 'http://www.ecma-international.org/ecma-262/6.0/#sec-let-and-const-declarations',
+        ecma: 'https://www.ecma-international.org/ecma-262/6.0/#sec-let-and-const-declarations',
         ver: 'es6'
     },
 
@@ -13,7 +13,7 @@ feats['Syntax'] = [
         title: 'Spread operator (<code>...</code>)',
         test: 'test=function(){var a=[1,2,3];return Math.min(...a)===1}()',
         tip: 'var numbers = [2, 5, 3, 0, 1];\nvar maxVal = Math.max(<b>...</b>numbers);',
-        ecma: 'http://www.ecma-international.org/ecma-262/6.0/#sec-argument-lists-runtime-semantics-argumentlistevaluation',
+        ecma: 'https://www.ecma-international.org/ecma-262/6.0/#sec-argument-lists-runtime-semantics-argumentlistevaluation',
         ver: 'es6'
     },
 
@@ -21,7 +21,7 @@ feats['Syntax'] = [
         title: 'Destructuring declarations, assignment, parameters',
         test: 'test=function(){var arr=[1,2,3],obj={a:1, b:2, c:3},[a1,a2,a3,a4]=arr,{a,b,c,d=true}=obj;return a1===a&&a2===b&&a3===c&&!a4&&d}()',
         tip: 'let obj = {a: 1, b: 2, c: 3};\n\n<b>let {a, c, d = "foo"} = obj</b>;\n\nobj = {a: "ah", b: "bee"};\n\n<b>({a, b} = obj)</b>;\n\n<b>let {a: x, b: y} = obj</b>;\n\nlet arr = [1, 2, 3, 5];\n\n<b>let [d, e] = arr</b>;\n\n<b>[, , e, d] = arr</b>;\n\n<b>[d, e] = [e, d]</b>;\n\nfunction func(p1, <b>{p2, p3, p4} = {}</b>) {\n  <i>// do something..</i>\n};',
-        ecma: 'http://www.ecma-international.org/ecma-262/6.0/#sec-destructuring-assignment',
+        ecma: 'https://www.ecma-international.org/ecma-262/6.0/#sec-destructuring-assignment',
         ver: 'es6'
     },
 
@@ -29,7 +29,7 @@ feats['Syntax'] = [
         title: 'Object literal syntax extension',
         test: 'test=function(){var prop=true;return{prop}}().prop',
         tip: 'function createPoint(x, y) {\n  return {\n    x,\n    y\n  };\n}',
-        ecma: 'http://www.ecma-international.org/ecma-262/6.0/#sec-object-initialiser',
+        ecma: 'https://www.ecma-international.org/ecma-262/6.0/#sec-object-initialiser',
         ver: 'es6'
     },
 
@@ -37,7 +37,7 @@ feats['Syntax'] = [
         title: '<code>for-of</code> loop',
         test: 'test=function(){var a=[0,1,2,3];for(var v of a){if(v===2){return true}}}()',
         tip: 'let nums = [1, 2, 3];\n\n<b>for</b> (let n <b>of</b> nums) {\n  console.log(n);\n}',
-        ecma: 'http://www.ecma-international.org/ecma-262/6.0/#sec-for-in-and-for-of-statements',
+        ecma: 'https://www.ecma-international.org/ecma-262/6.0/#sec-for-in-and-for-of-statements',
         ver: 'es6'
     },
 
@@ -45,7 +45,7 @@ feats['Syntax'] = [
         title: 'Octal literal <code>0o</code> prefix',
         test: 'test=function(){"use strict";return 0o10===8}()',
         tip: 'let num = <b>0o</b>10;\n\nconsole.log(num); <i>// 8</i>',
-        ecma: 'http://www.ecma-international.org/ecma-262/6.0/#sec-literals-numeric-literals',
+        ecma: 'https://www.ecma-international.org/ecma-262/6.0/#sec-literals-numeric-literals',
         ver: 'es6'
     },
 
@@ -53,7 +53,15 @@ feats['Syntax'] = [
         title: '<code>class</code> Declaration and Expression',
         test: 'test=function(){class c{constructor(){this.b=true;}}let c2=class{constructor(){this.b=true;}};return new c().b===new c2().b;}();',
         tip: '<b>class</b> Cls {\n  constructor() {\n    this.prop = true;\n  }\n}\n\nlet Kls = <b>class</b> {\n  constructor() {\n    this.prop = true;\n  }\n}',
-        ecma: 'http://www.ecma-international.org/ecma-262/6.0/#sec-class-definitions',
+        ecma: 'https://www.ecma-international.org/ecma-262/6.0/#sec-class-definitions',
         ver: 'es6'
+    },
+
+    {
+      title: 'Exponentiation Operator (<code>**</code>)',
+      test: 'test=function(){return 2**3===8}()',
+      tip: 'var n = 2 ** 8; <i>// 256</i>',
+      ecma: 'https://www.ecma-international.org/ecma-262/7.0/#sec-exp-operator',
+      ver: 'es16'
     }
 ];

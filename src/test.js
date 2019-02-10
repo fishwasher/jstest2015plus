@@ -1,4 +1,4 @@
-var oops = false, modal = null, uaId = 'ua-target', testId = 'test-target',
+var oops = false, modal = null, uaId = 'ua-target', testId = 'test-target', topId = 'top-header',
 
 runTest = function(p) {
   var t = typeof(p), ret = false;
@@ -16,7 +16,7 @@ runTest = function(p) {
     return ret;
   },
 
-  makeEl = function(tagname, classname, txt) {
+  mkEl = function(tagname, classname, txt) {
     var el = document.createElement(tagname);
     if (classname) {
       el.className = classname;
@@ -31,14 +31,14 @@ runTest = function(p) {
   createModal = function() {
     if (modal) return;
     var
-      elMod = makeEl('div', 'modal-wrap'), elOvl = makeEl('div', 'modal-overlay'),
-      elX = makeEl('div', 'modal-close'),
+      elMod = mkEl('div', 'modal-wrap'), elOvl = mkEl('div', 'modal-overlay'),
+      elX = mkEl('div', 'modal-close'),
       elInner = null;
 
     modal = {
       show: function(content) {
         if (content !== null && content !== undefined) {
-          elInner = makeEl('div', 'modal-inner');
+          elInner = mkEl('div', 'modal-inner');
           elInner.innerHTML = content;
           elOvl.appendChild(elInner);
         }
@@ -64,10 +64,12 @@ runTest = function(p) {
     }
     var
       testVal = runTest(feat.test),
-      itemEl = makeEl('li', 'feature ' + (testVal ? 'pass' : 'fail')),
-      rowEl = makeEl('span', 'row'),
-      testEl = makeEl('span', 'checkmark'),
-      descrEl = makeEl('span', 'descr'),
+      itemEl = mkEl('li', 'feature ' + (testVal ? 'pass' : 'fail')),
+      rowEl = mkEl('span', 'row'),
+      testEl = mkEl('span', 'checkmark'),
+      descrEl = mkEl('span', 'descr'),
+      ecmaHtml,
+      ecmaLink,
       infoHtml;
 
     if (!testVal && !oops) {
@@ -81,20 +83,14 @@ runTest = function(p) {
     itemEl.appendChild(rowEl);
     infoHtml = '<h3>' + feat.title + '</h3>\n';
     if (feat.ver && editions[feat.ver]) {
-        infoHtml += '<p class="version">' + editions[feat.ver] + '</p>\n';
+      ecmaLink = feat.ecma || editions[feat.ver][1] || '';
+      ecmaHtml = ecmaLink ?
+        '<a href="' + ecmaLink + '">' + editions[feat.ver][0] + '</a>' :
+        '<span>' + editions[feat.ver][0] + '</span>\n';
+      infoHtml += '<p class="ecma">Introduced in ' + ecmaHtml + '</p>\n';
     }
     if (feat.tip) {
       infoHtml += '<h4>Example</h4>\n<pre>\n' + feat.tip + '\n</pre>';
-    }
-    if (feat.ecma || feat.mdn) {
-      infoHtml += '<div class="reflinks">\n';
-      if (feat.ecma) {
-        infoHtml += '<a class="ecma" href="' + feat.ecma + '">ECMA</a>\n';
-      }
-      if (feat.mdn) {
-        infoHtml += '<a class="mdn" href="' + feat.mdn + '">MDN</a>\n';
-      }
-      infoHtml += '</div>';
     }
     if (infoHtml.length) {
       itemEl.addEventListener('click', function(){
@@ -110,9 +106,9 @@ runTest = function(p) {
     targEl.innerHtml = '';
     for (var sectTitle in feats) {
       var
-        sectEl = makeEl('div'),
-        titleEl = makeEl('h2'),
-        featsEl = makeEl('ul'),
+        sectEl = mkEl('div'),
+        titleEl = mkEl('h2'),
+        featsEl = mkEl('ul'),
         featList = feats[sectTitle];
 
       sectEl.className = 'section';
@@ -130,10 +126,16 @@ runTest = function(p) {
 
   renderUA = function() {
     document.getElementById(uaId).innerHTML = navigator.userAgent;
+  },
+
+  fixTop = function(){
+    var h = document.getElementById(topId).offsetHeight;
+    document.getElementById(testId).setAttribute('style', 'margin-top:' + (h + 20) + 'px');
   };
 
 window.addEventListener('load', function(){
   renderUA();
   createModal();
   runtest(testId);
+  fixTop();
 });

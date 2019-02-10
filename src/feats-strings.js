@@ -4,7 +4,7 @@ feats['Strings'] = [
         title: 'Template literals',
         test: 'test=function(){"use strict";var a=String.fromCharCode(98);return `a${a}c`==="abc"}()',
         tip: 'const a = "b";\n`a${a}c` === "abc";',
-        ecma: 'http://www.ecma-international.org/ecma-262/6.0/#sec-template-literals',
+        ecma: 'https://www.ecma-international.org/ecma-262/6.0/#sec-template-literals',
         ver: 'es6'
     },
 

@@ -13,6 +13,7 @@ const
       'feats-func.js',
       'feats-builtins.js',
       'feats-object.js',
+      'feats-arrays.js',
       'feats-strings.js',
       'feats-regex.js',
       'test.js'];
