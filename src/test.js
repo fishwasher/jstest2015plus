@@ -1,4 +1,52 @@
-var oops = false, modal = null, uaId = 'ua-target', testId = 'test-target', topId = 'top-header',
+var modalEl = null, uaId = 'ua-target',
+edsId = 'ed-target', testId = 'test-target',
+scoreId = 'score-target', topId = 'top-header',
+
+okCnt = 0,
+
+badPool = {},
+
+trackBad = function(ed, id) {
+  badPool[ed] || (badPool[ed] = []);
+  badPool[ed].push(id);
+},
+
+getBadCnt = function() {
+  var c = 0;
+  for (var k in badPool) {
+    c += badPool[k].length;
+  }
+  return c;
+},
+
+getBadInfoStr = function() {
+  var s = '', o = badPool;
+  eval('s=JSON.stringify(o)');
+  return s;
+},
+
+joinEdStr = function(obj) {
+  var
+    lst = Object.keys(obj).map(function(it) {
+      return it.replace('es', '');
+    }).sort(),
+    suffix = lst.length === 1 ? '' : 's',
+    last = lst.length > 1 ? lst.pop() : '',
+    lstTxt = lst.length > 1 ? lst.join(', ') : lst.length === 1 ? lst[0] : '';
+  if (lstTxt) {
+    if (last) lstTxt += ' and ' + last;
+  }
+  return lstTxt.length ? 'Edition' + suffix + ' ' + lstTxt : '';
+},
+
+getResultHtml = function() {
+  if (!okCnt) return '<p class="fail">All tests failed.</p>';
+  var badCnt = getBadCnt(),
+    suffix = badCnt === 1 ? '' : 's',
+    eds = joinEdStr(badPool);
+  return badCnt ? '<p class="fail"><strong>' + badCnt + '</strong> test' + suffix + ' failed (features from ' + eds + ')</p>' :
+    '<p class="pass">All tests passed.</p>';
+},
 
 runTest = function(p) {
   var t = typeof(p), ret = false;
@@ -29,13 +77,14 @@ runTest = function(p) {
   },
 
   createModal = function() {
-    if (modal) return;
+    if (modalEl) return;
     var
-      elMod = mkEl('div', 'modal-wrap'), elOvl = mkEl('div', 'modal-overlay'),
+      elMod = mkEl('div', 'modal-wrap'),
+      elOvl = mkEl('div', 'modal-overlay'),
       elX = mkEl('div', 'modal-close'),
       elInner = null;
 
-    modal = {
+    modalEl = {
       show: function(content) {
         if (content !== null && content !== undefined) {
           elInner = mkEl('div', 'modal-inner');
@@ -50,12 +99,15 @@ runTest = function(p) {
       }
     };
     elX.innerHTML = '✖';
-    elX.addEventListener('click', function() {
-      modal.hide();
-    });
+
     elOvl.appendChild(elX);
     elMod.appendChild(elOvl);
     document.body.appendChild(elMod);
+    window.addEventListener('click', function(ev) {
+      if (ev.target == elX || ev.target == elMod)
+      modalEl.hide();
+      ev.preventDefault();
+    });
   },
 
   renderItem = function(feat, parent) {
@@ -72,9 +124,10 @@ runTest = function(p) {
       ecmaLink,
       infoHtml;
 
-    if (!testVal && !oops) {
-      document.getElementById(uaId).setAttribute('class', 'fail');
-      oops = true;
+    if (testVal) {
+      okCnt ++;
+    } else {
+      trackBad(feat.ver, feat.fid || '?');
     }
 
     descrEl.innerHTML = feat.title;
@@ -82,27 +135,30 @@ runTest = function(p) {
     rowEl.appendChild(descrEl);
     itemEl.appendChild(rowEl);
     infoHtml = '<h3>' + feat.title + '</h3>\n';
-    if (feat.ver && editions[feat.ver]) {
-      ecmaLink = feat.ecma || editions[feat.ver][1] || '';
+    if (feat.ver && eds[feat.ver]) {
+      ecmaLink = feat.ecma || eds[feat.ver][1] || '';
       ecmaHtml = ecmaLink ?
-        '<a href="' + ecmaLink + '">' + editions[feat.ver][0] + '</a>' :
-        '<span>' + editions[feat.ver][0] + '</span>\n';
+        '<a href="' + ecmaLink + '">' + eds[feat.ver][0] + '</a>' :
+        '<span>' + eds[feat.ver][0] + '</span>\n';
       infoHtml += '<p class="ecma">Introduced in ' + ecmaHtml + '</p>\n';
+      if (feat.note) {
+        infoHtml += '<div class="note">' + feat.note + '</div>';
+      }
     }
     if (feat.tip) {
       infoHtml += '<h4>Example</h4>\n<pre>\n' + feat.tip + '\n</pre>';
     }
     if (infoHtml.length) {
       itemEl.addEventListener('click', function(){
-        modal.show(infoHtml);
+        modalEl.show(infoHtml);
       });
     }
     parent.appendChild(itemEl);
   },
 
   // render tests
-  runtest = function(targId) {
-    var targEl = document.getElementById(targId);
+  runtest = function() {
+    var targEl = document.getElementById(testId);
     targEl.innerHtml = '';
     for (var sectTitle in feats) {
       var
@@ -124,8 +180,16 @@ runTest = function(p) {
     }
   },
 
+  renderHeaderEds = function() {
+    document.getElementById(edsId).innerHTML = '<p>New features from ECMAScript ' + joinEdStr(eds) + '</p>';
+  },
+
   renderUA = function() {
     document.getElementById(uaId).innerHTML = navigator.userAgent;
+  },
+
+  renderResult = function() {
+    document.getElementById(scoreId).innerHTML = getResultHtml();
   },
 
   fixTop = function(){
@@ -134,8 +198,11 @@ runTest = function(p) {
   };
 
 window.addEventListener('load', function(){
+  renderHeaderEds();
   renderUA();
   createModal();
-  runtest(testId);
+  runtest();
+  renderResult();
   fixTop();
+  //console.log(getBadInfoStr());
 });

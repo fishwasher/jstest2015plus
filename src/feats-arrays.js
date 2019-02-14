@@ -1,9 +1,10 @@
 feats['Arrays'] = [
   {
-    title: '<code>includes()</code>',
+    title: '<code>Array.prototype.includes()</code>',
+    fid: 'apinc',
     test: 'test=function(){return [0].includes(0)}()',
-    tip:  'let arr = [1, 2, 3],\n  b = arr<b>.includes(1)</b>;',
+    tip:  '[1, 2, 3].<b>includes</b>(2) === true;',
     ecma: 'https://www.ecma-international.org/ecma-262/7.0/#sec-array.prototype.includes',
-    ver: 'es16'
+    ver: 'es7'
   }
 ];

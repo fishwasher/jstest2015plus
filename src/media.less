@@ -1,0 +1,55 @@
+
+/* small and medium screen */
+
+@media screen and (max-width: 859px) {
+
+  body {
+    font-size: 120%;
+  }
+
+  .pagewrap {
+    width: 100%;
+    padding: 0 1%;
+  }
+
+  .section ul {
+    width: auto;
+    margin: 0 auto;
+
+    li {
+      display: block;
+      margin: 0.2rem;
+      width: 95%;
+      border-radius: 4px;
+    }
+  }
+}
+
+/* large screen */
+
+@media screen and (min-width: 860px) {
+
+  body {
+    text-align: center;
+  }
+
+  .section ul {
+    li {
+      display: inline-block;
+      margin: 2px;
+      margin-right: 4px;
+      width: 47%;
+      border: 4px solid transparent;
+
+      &:hover, &:active {
+        border-color: fadeout(#fff, 20%);
+      }
+    }
+  }
+
+  .modal-wrap {
+    .modal-overlay {
+      margin-top: 40px;
+    }
+  }
+}

@@ -3,18 +3,18 @@
 <head><title>{{TITLE}}</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="description" content="{{DESCRIPTION}}">
 <meta name="author" content="Vlad Podvorny">
-<link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto+Mono" rel="stylesheet">
-<style>
-{{STYLE | safe}}
-</style>
+<style>{{STYLE | safe}}</style>
 </head>
 <body>
 <noscript>{{NOSCRIPT}}</noscript>
+<div class="header" id="top-header"><div class="pagewrap">
+<h1>{{TITLE}}</h1><div id="ed-target"></div><div id="ua-target"></div><div id="score-target"></div>
+</div></div>
 <div class="pagewrap">
-<div class="header" id="top-header"><h1>{{TITLE}}</h1><div id="ua-target"></div></div>
 <div id="test-target"></div>
-<footer>{{FOOTER | safe}}</footer>
+<div class="footer"><span class="copy">&#9786;</span>{{YEAR}} {{AUTHOR}}</div>
 </div>
 <script>!function(){"use strict";{{JS | safe}}}()</script>
 </body>

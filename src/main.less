@@ -1,31 +1,28 @@
-@font-family-sans: 'Montserrat',Roboto, Arial,Helvetica,sans-serif;
+@font-family-sans: Roboto,Arial,Helvetica,sans-serif;
 @font-family-mono: 'Roboto Mono','Courier New',monospace;
 @font-family-serif: Georgia,Cambria,'Times New Roman',Times,serif;
-@bgcolor-body: #999;
+@bgcolor-body: #b2b2b2;
 @bgcolor-pagewrap: transparent;
 
-@bgcolor-modal: rgba(0,0,0,0.4);
-@bgcolor-modal-content: #dcdcdc;
-
-@text-color-body: #ccc;
-@font-size-body: 100%;
-
-@z-index-modal: 10;
+@text-color-body: #000;
 
 @width-page-wrap: 860px;
 
-@bgcolor-pass: #393;
-@bgcolor-fail: #933;
+@bgcolor-pass: mix(@bgcolor-body, #060, 33%);
+@bgcolor-fail: mix(@bgcolor-body, #c00, 50%);
 
-@text-color-pass: #cfc;
-@text-color-fail: #fcc;
+@text-color-pass: lighten(@bgcolor-pass, 50%);
+@text-color-fail: lighten(@bgcolor-fail, 40%);
 
-body {
+* {
   margin: 0;
   padding: 0;
+}
+
+body {
   font-family: @font-family-sans;
   background-color: @bgcolor-body;
-  font-size: @font-size-body;
+  font-size: 100%;
   color: @text-color-body;
 }
 
@@ -33,13 +30,8 @@ a {
   text-decoration: none;
 }
 
-#ua-target {
-  font-family: @font-family-mono;
-  color: @text-color-pass;
-
-  &.fail {
-    color: @text-color-fail;
-  }
+p, h1, h2, h3, h4, h5, h6 {
+  margin: 0.3rem 0 0.2rem;
 }
 
 .pagewrap {
@@ -59,22 +51,50 @@ pre, code {
   width: 100%;
   position: fixed;
   top: 0;
-  background-color: @bgcolor-body;
+  padding-bottom: 0.5rem;
+  background-color: fadeout(darken(@bgcolor-body, 50%), 10%);
 
   h1 {
     font-size: 1.5rem;
     line-height: 1.2;
+    color: lighten(@bgcolor-body, 20%);
+  }
+
+  p {
+    color: lighten(@bgcolor-body, 10%);
+  }
+}
+
+#ua-target {
+  font-family: @font-family-mono;
+  color: #fff;
+  margin: 1rem 0;
+
+  &.fail {
+    color: @text-color-fail;
   }
 }
 
 #test-target {
   margin-top: 4rem;
+  margin-bottom: 2rem;
+}
+
+#score-target {
+  .pass {
+    color: #6c6;
+  }
+
+  .fail {
+    color: #f99;
+  }
 }
 
 .section {
 
   h2 {
-    font-size: 1rem;
+    font-size: 1.2rem;
+    color: darken(@bgcolor-body, 50%);
   }
 
   ul {
@@ -108,7 +128,7 @@ pre, code {
 
       .descr {
         code {
-          font-size: 1.1rem;
+          font-size: 105%;
         }
       }
 
@@ -145,5 +165,14 @@ pre, code {
         }
       }
     }
+  }
+}
+
+.footer {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+
+  .copy {
+    font-size: 1.4rem;
   }
 }
