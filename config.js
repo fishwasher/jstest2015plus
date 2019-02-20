@@ -6,7 +6,7 @@ const
     dirApp = fs.realpathSync(process.cwd()),
     absPath = relativePath => path.resolve(dirApp, relativePath),
     pathSrc = absPath('src'),
-    pathBuild = absPath('build'),
+    pathBuild = absPath('dist'),
     lessFiles = ['main.less', 'modal.less', 'media.less'],
     jsFiles = ['feats.js',
       'feats-syntax.js',

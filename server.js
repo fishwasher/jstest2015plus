@@ -2,7 +2,7 @@
 
 const
   config = require('./config'),
-  port = process.env.PORT || 8888,
+  port = process.env.PORT || 80,
   express = require('express'),
   app = express(),
   fs = require('fs'),

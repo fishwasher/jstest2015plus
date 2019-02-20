@@ -1,3 +1,5 @@
-# JavaScript 2015+ browser support test
+# JavaScript 2015+ (ECMAScript Edition 6 and above) browser support test
 
-Just started, not supposed to work yet ;)
+This is the test page development environment.
+
+The generated test page is stored in `/dist` directory

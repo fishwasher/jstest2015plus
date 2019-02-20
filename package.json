@@ -1,7 +1,7 @@
 {
-  "name": "helloworld",
+  "name": "es6plus",
   "version": "1.0.0",
-  "description": "",
+  "description": "ECMAScript editions 6 and above browser support test",
   "main": "src/server/index.js",
   "dependencies": {
     "express": "^4.16.3",

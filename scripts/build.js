@@ -17,7 +17,6 @@ const
     autoprefix = new LessAutoprefix({ browsers: ['last 2 versions'] }),
     UglifyJS = require('uglify-js'),
     CleanCSS = require('clean-css'),
-    jam = require('./obfuscate-js'),
     config = require('../config.js'),
     context = require('../app/context.js').create();
 
@@ -64,8 +63,6 @@ async function build() {
   }
 
   logger.info('obfuscating JS');
-
-  jsStr = jam(jsStr);
 
   logger.info('minifying JS');
 

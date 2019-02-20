@@ -1,4 +1,4 @@
-FROM node:8.12
+FROM node:10.15.1
 
 COPY . /app
 WORKDIR /app
@@ -6,7 +6,6 @@ WORKDIR /app
 ENV CONTAINER docker
 
 RUN npm install
-
 RUN npm run build
 
 ENV PORT 80
