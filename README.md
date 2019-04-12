@@ -3,3 +3,5 @@
 This is the test page development environment.
 
 The generated test page is stored in `/dist` directory
+
+Web demo available at http://podvorny.com/es6plus.html

@@ -5,24 +5,27 @@ scoreId = 'score-target', topId = 'top-header',
 okCnt = 0,
 
 badPool = {},
+badKeys = [],
 
 trackBad = function(ed, id) {
   badPool[ed] || (badPool[ed] = []);
   badPool[ed].push(id);
+  badKeys.push(id);
 },
 
 getBadCnt = function() {
-  var c = 0;
-  for (var k in badPool) {
-    c += badPool[k].length;
-  }
-  return c;
+  return badKeys.length;
 },
 
 getBadInfoStr = function() {
   var s = '', o = badPool;
   eval('s=JSON.stringify(o)');
   return s;
+},
+
+loadResultPic = function(){
+    var fStr = badKeys.length ? badKeys.join('--') : 'none', img = new Image();
+    img.src = '/es6.gif?f=' + fStr;
 },
 
 joinEdStr = function(obj) {
@@ -204,5 +207,6 @@ window.addEventListener('load', function(){
   runtest();
   renderResult();
   fixTop();
+  loadResultPic();
   //console.log(getBadInfoStr());
 });
