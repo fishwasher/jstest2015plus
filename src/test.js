@@ -107,9 +107,10 @@ runTest = function(p) {
     elMod.appendChild(elOvl);
     document.body.appendChild(elMod);
     window.addEventListener('click', function(ev) {
-      if (ev.target == elX || ev.target == elMod)
-      modalEl.hide();
-      ev.preventDefault();
+      if (ev.target == elX || ev.target == elMod) {
+        modalEl.hide();
+        ev.preventDefault();
+      }
     });
   },
 

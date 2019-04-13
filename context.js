@@ -12,6 +12,8 @@ module.exports = {
       DESCRIPTION,
       AUTHOR: 'Vlad Podvorny',
       NOSCRIPT: `${DESCRIPTION} Make sure JavaScript is enabled in your client application.`,
+      REPO_URL: 'https://github.com/fishwasher/jstest2015plus',
+      REPO_TEXT: 'Visit GitHub',
       YEAR
     });
   }
