@@ -1,7 +1,0 @@
-node_modules
-__*
-Dockerfile*
-docker-compose.yml
-README.md
-.openode
-npm-debug.log
